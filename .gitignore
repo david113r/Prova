@@ -1,32 +1,284 @@
-# Prerequisites
-*.d
+#include<stdio.h>
+#include<stdlib.h>
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+typedef int dado;
 
-# Precompiled Headers
-*.gch
-*.pch
+struct Node
+{
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+    dado valor;
+    Node *prox;
 
-# Fortran module files
-*.mod
-*.smod
+    Node()
+    {
+        prox = NULL;
+    }
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+    Node(dado _valor)
+    {
+        valor = _valor;
+        prox = NULL;
+    }
 
-# Executables
-*.exe
-*.out
-*.app
+    void print()
+    {
+        printf("%d -> ", valor);
+    }
+
+};
+
+struct List
+{
+
+    Node *cabeca, *cauda;
+    int size;
+
+    List()
+    {
+        cabeca = NULL;
+        cauda = NULL;
+        size = 0;
+    }
+
+    bool empty()   //O(1)
+    {
+        return (cabeca == NULL) && (cauda == NULL);
+    }
+
+    Node* pushBack(dado valor)   //O(1)
+    {
+        Node *novo = new Node(valor);
+        if (empty())
+        {
+            cabeca = novo;
+            cauda = novo;
+        }
+        else
+        {
+            cauda->prox = novo;
+            cauda = novo;
+        }
+        size++;
+        return cauda;
+    }
+
+    Node* pushFront(dado valor)   //O(1)
+    {
+        Node *novo = new Node(valor);
+        if (empty())
+        {
+            cabeca = novo;
+            cauda = novo;
+        }
+        else
+        {
+            novo->prox = cabeca;
+            cabeca = novo;
+        }
+        size++;
+        return cabeca;
+    }
+
+    /*int size() { //O(n)
+        int s = 0;
+        Node *tmp = cabeca;
+        while (tmp != NULL) {
+            s++;
+            tmp = tmp->prox;
+        }
+        return s;
+    }*/
+
+    void print()   //O(n)
+    {
+        Node *tmp = cabeca;
+        while (tmp != NULL)
+        {
+            tmp->print();
+            tmp = tmp->prox;
+        }
+      //  printf("\n");
+    }
+
+    Node* popFront()   //O(1)
+    {
+        if (!empty())
+        {
+            if (cabeca == cauda)   // Apenas 1 elemento
+            {
+                delete(cabeca);
+                cabeca = NULL;
+                cauda = NULL;
+            }
+            else
+            {
+                Node *tmp = cabeca;
+                cabeca = cabeca->prox;
+                delete(tmp);
+            }
+            size--;
+        }
+        return cabeca;
+    }
+
+    Node* popBack()   //O(n)
+    {
+        if (!empty())
+        {
+            if (cabeca == cauda)
+            {
+                delete(cabeca);
+                cabeca = NULL;
+                cauda = NULL;
+            }
+            else
+            {
+                Node *penultimo = cabeca;
+                while (penultimo->prox != cauda)
+                {
+                    penultimo = penultimo->prox;
+                }
+                delete(cauda);
+                cauda = penultimo;
+                cauda->prox = NULL;
+            }
+            size--;
+        }
+        return cauda;
+    }
+
+    Node* find(dado x)   //O(n)
+    {
+        Node *tmp = cabeca;
+        while (tmp != NULL)
+        {
+            if (tmp->valor == x)
+            {
+                return tmp;
+            }
+            tmp = tmp->prox;
+        }
+        return NULL;
+    }
+
+
+
+
+
+
+
+
+
+    Node* primeiraq()
+    {
+        Node *cabeca;
+        Node *tmp=cabeca;
+        int n, tam=size;
+
+
+        printf("\nDigite o tamanho da lista:");
+        scanf("%d",&n);
+
+
+        if(size>n){
+            while(tam!=n){
+
+            popBack();
+
+             tam--;
+        }
+
+        }
+
+        if(size<n){
+           while(tam!=n){
+
+            pushFront(0);
+
+             tam++;
+        }
+
+
+        }
+
+}
+
+    Node* segundaq(){
+
+    Node *tmp=cabeca;
+    int numero;
+    Node *auxtmp;
+    Node *seguinte;
+
+
+       printf("\nDigite o numero:");
+       scanf("%d",&numero);
+
+
+    while(tmp!=NULL){
+
+
+
+      if(tmp->valor<numero){
+
+      auxtmp=tmp;
+
+      // printf("aux:%d\n",*auxtmp);
+
+      //printf("tmp:%d\n",*tmp);
+
+
+
+
+
+      }
+
+        tmp=tmp->prox;
+
+
+    }
+
+    }
+
+    Node* terceira(){
+
+    Node *cabeca;
+    Node *tmp=cabeca;
+    Node *cauda;
+    int rep;
+
+    while(rep!=0){
+      print();
+
+   rep++;
+
+
+    }
+
+
+    }
+
+
+
+
+
+    };
+
+    int main()
+    {
+        List l;
+        l.pushBack(50);
+        l.pushBack(30);
+       l.pushBack(10);
+        l.pushFront(20);
+        l.pushFront(15);
+        l.print();
+
+       l.primeiraq();
+       //l.segundaq();
+      //l.terceira();
+
+        l.print();
+
+        return 0;
+    }
